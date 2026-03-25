@@ -1,1 +1,10 @@
-<div id="superset_embedding_div_class"></div>
+<div class="superset-container">
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="spinner-container">
+    <div class="spinner"></div>
+    <p>Authenticating & Loading Dashboard...</p>
+  </div>
+  
+  <!-- Mount Point for Superset -->
+  <div #dashboardContainer id="superset_embedding_div_class" [class.hidden]="isLoading"></div>
+</div>

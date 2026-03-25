@@ -1,100 +1,102 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, catchError, switchMap, throwError } from 'rxjs';
-
-
+import { lastValueFrom } from 'rxjs';
 import { embedDashboard } from '@superset-ui/embedded-sdk';
+
+export interface LoginResponse {
+  access_token: string;
+}
+
+export interface GuestTokenResponse {
+  token: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class SupersetEmbedService {
-
-  private supersetUrl = 'http://localhost:8088/'
-  private supersetApiUrl = `${this.supersetUrl}/api/v1/security`
-  private dashboardId = "6ce53370-9d60-439f-a337-0459416a4832"
+  private supersetUrl = 'http://127.0.0.1:5000/';
+  private supersetApiUrl = `${this.supersetUrl}api/v1/security`;
 
   constructor(private http: HttpClient) { }
 
-  getToken() {
-    //calling login to get access token
-    const body = {
-      "password": "", // TODO: Enter your password here locally (DO NOT PUSH TO GITHUB)
+  /**
+   * WARNING: CRITICAL SECURITY RISK
+   * In a production environment, NEVER expose credentials over the frontend like this.
+   * Superset credentials must be securely stored on a backend server (Node, Python, Java).
+   * Your Angular app should call your backend API to retrieve the guest token seamlessly.
+   */
+  async getGuestToken(dashboardId: string): Promise<string> {
+    const loginBody = {
+      "password": "root", // DO NOT PUSH TO GITHUB/PRODUCTION
       "provider": "db",
       "refresh": true,
-      "username": "embedding-admin"
+      "username": "admin"
     };
 
-    const headers = new HttpHeaders({
-      "Content-Type": "application/json"
+    const headers = new HttpHeaders({ "Content-Type": "application/json" });
+
+    // 1. Authenticate with Superset to get an Admin Access Token
+    const loginResponse = await lastValueFrom(
+      this.http.post<LoginResponse>(`${this.supersetApiUrl}/login`, loginBody, { headers })
+    );
+
+    const accessToken = loginResponse.access_token;
+    if (!accessToken) throw new Error("Failed to retrieve access token");
+
+    // 2. Request a Guest Token specific to this Dashboard ID
+    const guestBody = {
+      "resources": [
+        {
+          "type": "dashboard",
+          "id": dashboardId,
+        }
+      ],
+      "rls": [],
+      "user": {
+        "username": "report-viewer",
+        "first_name": "report-viewer",
+        "last_name": "report-viewer",
+      }
+    };
+
+    const guestHeaders = new HttpHeaders({
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${accessToken}`,
     });
 
-    return this.http.post(`${this.supersetApiUrl}/login`, body, { headers }).pipe(
-      catchError((error) => {
-        console.error(error);
-        return throwError(error);
-      }),
-      switchMap((accessToken: any) => {
-        const body = {
-          "resources": [
-            {
-              "type": "dashboard",
-              "id": this.dashboardId,
-            }
-          ],
-          "rls": [],
-          "user": {
-            "username": "report-viewer",
-            "first_name": "report-viewer",
-            "last_name": "report-viewer",
-          }
-        };
+    const guestResponse = await lastValueFrom(
+      this.http.post<GuestTokenResponse>(`${this.supersetApiUrl}/guest_token/`, guestBody, { headers: guestHeaders })
+    );
 
-        const acc = accessToken["access_token"];
-        const headers = new HttpHeaders({
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${acc}`,
-        });
-
-        return this.http.post<any>(`${this.supersetApiUrl}/guest_token/`, body, { headers });
-      }));
+    return guestResponse.token;
   }
 
-
-
-
-  embedDashboard() {
-    return new Observable<void>((observer) => {
-      this.getToken().subscribe({
-        next: (token: any) => {
-          embedDashboard({
-            id: this.dashboardId,
-            supersetDomain: this.supersetUrl,
-            mountPoint: document.getElementById('superset_embedding_div_class')!,
-            fetchGuestToken: () => token["token"],
-            dashboardUiConfig: {
-              hideTitle: true,
-              hideChartControls: true,
-              hideTab: true,
-              filters: {
-                visible: false,
-                expanded: false
-              },
-              urlParams: {
-                standalone: "1",
-                show_filters: "0",
-                show_native_filters: "0"
-
-              }
-            },
-          });
-          observer.next();
-          observer.complete();
+  /**
+   * Mounts the Superset SDK cleanly within the provided Angular ViewChild element.
+   */
+  async embedDashboard(dashboardId: string, mountPoint: HTMLElement): Promise<void> {
+    const guestToken = await this.getGuestToken(dashboardId);
+    
+    await embedDashboard({
+      id: dashboardId,
+      supersetDomain: this.supersetUrl,
+      mountPoint: mountPoint,
+      fetchGuestToken: () => Promise.resolve(guestToken),
+      dashboardUiConfig: {
+        hideTitle: true,
+        hideChartControls: true,
+        hideTab: true,
+        filters: {
+          visible: false,
+          expanded: false
         },
-        error: (error: any) => {
-          observer.error(error);
+        urlParams: {
+          standalone: "1",
+          show_filters: "0",
+          show_native_filters: "0"
         }
-      });
+      },
     });
   }
 }
