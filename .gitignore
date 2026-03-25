@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.env
+.venv
+.flaskenv
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Ignore Superset exports
+*.zip
+
+# Ignore IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
