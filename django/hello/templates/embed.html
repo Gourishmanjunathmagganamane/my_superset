@@ -1,0 +1,320 @@
+{% extends "base.html" %}
+{% block title %}superset-dashboard{% endblock %}
+{% block body %}
+{% load static %}
+{% block contents %}
+<style>
+/* ================= UPDATED WRAPPER ================= */
+html, body { 
+    margin: 0; padding: 0; height: 100vh; width: 100vw; 
+    overflow: hidden; display: flex; flex-direction: column; 
+}
+
+#dashboard-toolbar {
+    height: 48px; background: #1e3a5f; display: flex; 
+    align-items: center; padding: 0 20px; gap: 12px;
+    flex-shrink: 0; /* Keeps toolbar at top */
+    z-index: 100;
+}
+#dashboard-toolbar label { color: #fff; font-size: 14px; font-weight: 600; white-space: nowrap; }
+
+/* Custom Multi-Select Dropdown */
+.multi-select-container {
+    position: relative;
+    user-select: none;
+}
+.multi-select-btn {
+    padding: 6px 12px; border-radius: 6px; border: none;
+    font-size: 14px; font-weight: 500; background: #fff;
+    color: #1e3a5f; cursor: pointer; min-width: 200px; outline: none;
+    display: flex; justify-content: space-between; align-items: center;
+}
+.multi-select-dropdown {
+    position: absolute; top: 100%; left: 0; margin-top: 4px;
+    background: #fff; border: 1.5px solid #cbd5e1; border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15); width: 100%; min-width: 250px;
+    max-height: 300px; overflow-y: auto; z-index: 200; display: none;
+    flex-direction: column; padding: 6px 0;
+}
+.multi-select-dropdown.show { display: flex; }
+.multi-select-option {
+    padding: 8px 14px; display: flex; align-items: center; gap: 10px;
+    cursor: pointer; font-size: 13px; font-weight:500; transition: background 0.15s;
+}
+#dashboard-toolbar label.multi-select-option {
+    color: #334155; /* Override the white toolbar label color! */
+}
+.multi-select-option:hover { background: #eff6ff; }
+.multi-select-option input[type="checkbox"] { width: 15px; height: 15px; cursor: pointer; accent-color: #2563eb; }
+.select-all-wrapper { border-bottom: 1px solid #e2e8f0; padding-bottom: 6px; margin-bottom: 4px; font-weight: 700; color: #1e3a5f; }
+
+
+#reload-btn {
+    padding: 6px 16px; border-radius: 6px; border: none;
+    background: #2563eb; color: #fff; font-size: 14px;
+    font-weight: 600; cursor: pointer; transition: background 0.2s;
+}
+#reload-btn:hover { background: #1d4ed8; }
+#state-badge {
+    background: #0f172a; color: #60a5fa; border-radius: 6px;
+    padding: 4px 12px; font-size: 13px; font-weight: 600;
+    border: 1px solid #2563eb;
+}
+#user-info { color: #94a3b8; font-size: 13px; margin-left: auto; }
+#superset-wrapper {
+    flex-grow: 1; /* Takes exactly the remaining space below the toolbar */
+    position: relative;
+    width: 100%;
+}
+
+#superset-container { width: 100%; height: 100%; }
+
+#superset-container iframe { 
+    width: 100% !important; 
+    height: 100% !important; 
+    border: none; 
+}
+#loading-overlay {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(255,255,255,0.85); display: flex; flex-direction: column;
+    align-items: center; justify-content: center; z-index: 50;
+    gap: 12px; font-size: 15px; font-weight: 600; color: #1e3a5f;
+}
+#loading-overlay.hidden { display: none; }
+.spinner {
+    width: 36px; height: 36px; border: 4px solid #e2e8f0;
+    border-top: 4px solid #2563eb; border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
+
+<div id="dashboard-toolbar">
+    <label>Filter by State(s):</label>
+    <div class="multi-select-container">
+        <button class="multi-select-btn" onclick="toggleDropdown()">
+            <span id="btn-text">Select states...</span>
+            <span style="font-size:10px;">▼</span>
+        </button>
+        <div class="multi-select-dropdown" id="state-dropdown">
+            <label class="multi-select-option select-all-wrapper">
+                <input type="checkbox" id="select-all-cb" onchange="toggleAllStates(this)"> 
+                Select All / Deselect All
+            </label>
+            <div id="checkbox-list"></div>
+        </div>
+    </div>
+
+    <button id="reload-btn" onclick="applyStateFilter()">Apply Filter</button>
+    <span id="state-badge">{{ user_state }}</span>
+    <span id="user-info">👤 {{ request.user.username }} ({{ user_state }})</span>
+</div>
+
+<div id="superset-wrapper">
+    <div id="loading-overlay">
+        <div class="spinner"></div>
+        <span id="loading-text">Loading dashboard...</span>
+    </div>
+    <div id="superset-container"></div>
+</div>
+{% endblock %}
+
+{% block extra_javascript %}
+<script src="https://unpkg.com/@superset-ui/embedded-sdk"></script>
+<script>
+    const supersetUrl = '{{ superset_url }}';
+    const username = '{{ superset_username }}';
+    const password = '{{ superset_password }}';
+    const dashboardId = '{{ dashboard_id }}';
+    const allowedStates = {{ allowed_states|safe }};
+    const isAdmin = {{ is_admin|yesno:"true,false" }};
+    const djangoRls = {{ rls_rules|safe }};
+
+    const checkboxList = document.getElementById('checkbox-list');
+
+    function toggleDropdown() {
+        document.getElementById('state-dropdown').classList.toggle('show');
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+        const dropdown = document.getElementById('state-dropdown');
+        const btn = document.querySelector('.multi-select-btn');
+        if (!dropdown.contains(event.target) && !btn.contains(event.target)) {
+            dropdown.classList.remove('show');
+        }
+    });
+
+    function toggleAllStates(selectAllCheckbox) {
+        const checkboxes = document.querySelectorAll('.state-checkbox');
+        checkboxes.forEach(cb => cb.checked = selectAllCheckbox.checked);
+        updateBtnText();
+    }
+
+    function updateBtnText() {
+        const checkboxes = document.querySelectorAll('.state-checkbox');
+        const checked = Array.from(checkboxes).filter(cb => cb.checked);
+        const btnText = document.getElementById('btn-text');
+        
+        document.getElementById('select-all-cb').checked = (checked.length === checkboxes.length && checkboxes.length > 0);
+        document.getElementById('select-all-cb').indeterminate = (checked.length > 0 && checked.length < checkboxes.length);
+
+        if (checked.length === 0) {
+            btnText.textContent = "Select states...";
+        } else if (checked.length === checkboxes.length) {
+            btnText.textContent = "All States Selected";
+        } else if (checked.length === 1) {
+            btnText.textContent = checked[0].value;
+        } else {
+            btnText.textContent = `${checked.length} states selected`;
+        }
+    }
+
+    // Add all allowed states to checklist
+    allowedStates.forEach(state => {
+        const label = document.createElement('label');
+        label.className = 'multi-select-option';
+        const cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.className = 'state-checkbox';
+        cb.value = state;
+        cb.onchange = updateBtnText;
+        
+        label.appendChild(cb);
+        label.appendChild(document.createTextNode(state));
+        checkboxList.appendChild(label);
+    });
+
+    function showLoading(msg) {
+        document.getElementById('loading-overlay').classList.remove('hidden');
+        document.getElementById('loading-text').textContent = msg || 'Loading...';
+    }
+    function hideLoading() {
+        document.getElementById('loading-overlay').classList.add('hidden');
+    }
+    function updateBadge(label) {
+        document.getElementById('state-badge').textContent = label;
+    }
+
+    function buildRLS(states) {
+        // Build SQL "IN" clause if specific states are selected
+        if (!states || states.length === 0 || states.length === allowedStates.length) {
+            return isAdmin ? [] : djangoRls;
+        }
+        
+        const quotes = states.map(s => `'${s}'`).join(", ");
+        return [{ clause: `state IN (${quotes})` }];
+    }
+
+    async function getAccessToken() {
+        const res = await fetch(`${supersetUrl}/api/v1/security/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password, provider: 'db', refresh: true }),
+        });
+        if (!res.ok) throw new Error('Login failed');
+        return (await res.json()).access_token;
+    }
+
+    async function getCSRFToken(accessToken) {
+        const res = await fetch(`${supersetUrl}/api/v1/security/csrf_token/`, {
+            headers: { 'Authorization': `Bearer ${accessToken}` },
+        });
+        if (!res.ok) throw new Error('CSRF failed');
+        return (await res.json()).result;
+    }
+
+    async function generateGuestToken(accessToken, csrfToken, rlsRules) {
+        const res = await fetch(`${supersetUrl}/api/v1/security/guest_token/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+                'X-CSRFToken': csrfToken,
+            },
+            body: JSON.stringify({
+                resources: [{ type: 'dashboard', id: dashboardId }],
+                rls: rlsRules,
+                user: { username: 'guest', first_name: 'Guest', last_name: 'User' }
+            }),
+        });
+        if (!res.ok) throw new Error('Guest token failed');
+        return (await res.json()).token;
+    }
+
+    async function waitForSDK() {
+        return new Promise(resolve => {
+            const check = setInterval(() => {
+                if (window.supersetEmbeddedSdk) { clearInterval(check); resolve(); }
+            }, 100);
+        });
+    }
+
+    async function embedDashboard(states) {
+        let label = 'All States';
+        if (states && states.length > 0 && states.length < allowedStates.length) {
+            label = states.length === 1 ? `Filtered: ${states[0]}` : `Filtered: ${states.length} States`;
+        } else if (states && states.length === 0) {
+            label = 'No States Selected';
+        }
+        
+        showLoading(`Loading: ${label}...`);
+        
+        try {
+            await waitForSDK();
+            const rlsRules = buildRLS(states);
+            console.log("Loading with RLS Rules:", rlsRules);
+            
+            const accessToken = await getAccessToken();
+            const csrfToken = await getCSRFToken(accessToken);
+            const guestToken = await generateGuestToken(accessToken, csrfToken, rlsRules);
+
+            document.getElementById('superset-container').innerHTML = '';
+
+            await supersetEmbeddedSdk.embedDashboard({
+                id: dashboardId,
+                supersetDomain: supersetUrl,
+                mountPoint: document.getElementById('superset-container'),
+                fetchGuestToken: () => guestToken,
+                dashboardUiConfig: { hideTitle: false, hideChartControls: false, hideTab: false },
+            });
+
+            updateBadge(label);
+            hideLoading();
+        } catch (err) {
+            console.error('Embed error:', err);
+            hideLoading();
+            alert('Failed to load dashboard: ' + err.message);
+        }
+    }
+
+    function applyStateFilter() {
+        document.getElementById('state-dropdown').classList.remove('show');
+        
+        const checkboxes = document.querySelectorAll('.state-checkbox');
+        const checked = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
+        
+        if (checked.length === 0) {
+            alert('Please select at least one state!');
+            return;
+        }
+        
+        embedDashboard(checked);
+    }
+
+    // Initial load
+    let initialStates = [];
+    if (!isAdmin && allowedStates.length === 1) {
+        initialStates = [allowedStates[0]];
+        const firstCb = document.querySelector('.state-checkbox');
+        if(firstCb) firstCb.checked = true;
+    } else {
+        document.getElementById('select-all-cb').checked = true;
+        toggleAllStates(document.getElementById('select-all-cb'));
+        initialStates = allowedStates;
+    }
+    updateBtnText();
+    embedDashboard(initialStates);
+</script>
+{% endblock %}
+{% endblock body %}

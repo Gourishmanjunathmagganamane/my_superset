@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+
+{% block body %}
+<div style="max-width: 420px; margin: 100px auto; padding: 36px;
+            background: #fff; border-radius: 14px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.10);">
+
+    <h2 style="text-align:center; color: #1e3a5f;
+               font-weight: 800; margin-bottom: 28px;">
+        Sign In
+    </h2>
+
+    {% if form.errors %}
+    <div style="background:#fee2e2; color:#dc2626; padding:10px 14px;
+                border-radius:8px; margin-bottom:18px; text-align:center;
+                font-weight:600; font-size:14px;">
+        Invalid username or password. Please try again.
+    </div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}">
+
+        <div style="margin-bottom:18px;">
+            <label style="display:block; font-weight:600;
+                          color:#334155; margin-bottom:6px; font-size:14px;">
+                Username
+            </label>
+            <input type="text" name="username" autofocus
+                   style="width:100%; padding:10px 14px;
+                          border:1.5px solid #cbd5e1; border-radius:8px;
+                          font-size:14px; outline:none; box-sizing:border-box;
+                          transition: border 0.2s;"
+                   onfocus="this.style.borderColor='#2563eb'"
+                   onblur="this.style.borderColor='#cbd5e1'">
+        </div>
+
+        <div style="margin-bottom:26px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <label style="font-weight:600; color:#334155; font-size:14px; margin:0;">
+                    Password
+                </label>
+                <a href="{% url 'request_otp' %}" style="font-size:13px; color:#2563eb; font-weight:600; text-decoration:none;">
+                    Forgot Password?
+                </a>
+            </div>
+            <input type="password" name="password"
+                   style="width:100%; padding:10px 14px;
+                          border:1.5px solid #cbd5e1; border-radius:8px;
+                          font-size:14px; outline:none; box-sizing:border-box;
+                          transition: border 0.2s;"
+                   onfocus="this.style.borderColor='#2563eb'"
+                   onblur="this.style.borderColor='#cbd5e1'">
+        </div>
+
+        <button type="submit"
+                style="width:100%; padding:12px; background:#1e3a5f;
+                       color:#fff; border:none; border-radius:8px;
+                       font-size:15px; font-weight:700; cursor:pointer;
+                       transition: background 0.2s;"
+                onmouseover="this.style.background='#2563eb'"
+                onmouseout="this.style.background='#1e3a5f'">
+            Sign In
+        </button>
+    </form>
+
+    <!-- ===== DIVIDER ===== -->
+    <div style="display:flex; align-items:center; margin: 24px 0;">
+        <div style="flex:1; height:1px; background:#e2e8f0;"></div>
+        <span style="margin: 0 12px; color:#94a3b8;
+                     font-size:13px; font-weight:600;">OR</span>
+        <div style="flex:1; height:1px; background:#e2e8f0;"></div>
+    </div>
+
+    <!-- ===== GOOGLE LOGIN BUTTON ===== -->
+    <a href="{% url 'social:begin' 'google-oauth2' %}"
+       style="display:flex; align-items:center; justify-content:center;
+              gap:12px; width:100%; padding:11px;
+              border:1.5px solid #e2e8f0; border-radius:8px;
+              background:#fff; color:#334155;
+              font-size:15px; font-weight:600;
+              text-decoration:none; cursor:pointer;
+              transition: box-shadow 0.2s, border 0.2s;
+              box-sizing:border-box;"
+       onmouseover="this.style.boxShadow='0 2px 12px rgba(0,0,0,0.10)';
+                   this.style.borderColor='#2563eb'"
+       onmouseout="this.style.boxShadow='none';
+                  this.style.borderColor='#e2e8f0'">
+
+        <!-- Google SVG Icon -->
+        <svg width="20" height="20" viewBox="0 0 48 48">
+            <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34.1 6.5 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20c11 0 20-8.9 20-20 0-1.2-.1-2.2-.4-3.5z"/>
+            <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 16 19 13 24 13c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34.1 6.5 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>
+            <path fill="#4CAF50" d="M24 44c5.2 0 9.9-1.9 13.5-5.1l-6.2-5.2C29.4 35.5 26.8 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/>
+            <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.4 4.3-4.4 5.7l6.2 5.2C36.9 36.2 44 31 44 24c0-1.2-.1-2.2-.4-3.5z"/>
+        </svg>
+        Continue with Google
+    </a>
+
+    <p style="text-align:center; margin-top:20px;
+              font-size:14px; color:#64748b;">
+        Don't have an account?
+        <a href="/register/"
+           style="color:#2563eb; font-weight:600; text-decoration:none;">
+            Register
+        </a>
+    </p>
+
+</div>
+{% endblock %}

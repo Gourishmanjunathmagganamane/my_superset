@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- ===== HERO CAROUSEL ===== -->
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+
+  <ol class="carousel-indicators">
+    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+  </ol>
+
+  <div class="carousel-inner">
+
+    <div class="carousel-item active">
+      <img class="d-block w-100"
+           src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d"
+           alt="Healthcare"
+           style="height: 520px; object-fit: cover; object-position: center; filter: brightness(0.55);">
+      <div class="carousel-caption d-none d-md-block">
+        <h5 style="font-size: 48px; font-weight: 900; font-family: Arial, sans-serif;
+                   text-shadow: 2px 2px 10px rgba(0,0,0,0.9);">
+          Transforming Lives Across India
+        </h5>
+        <p style="font-size: 20px; font-family: Arial, sans-serif;
+                  text-shadow: 2px 2px 8px rgba(0,0,0,0.8);">
+          Data-driven healthcare insights for better decisions
+        </p>
+        <a href="{% url 'superset_dashboard' %}"
+           style="background: #2563eb; color: #fff; padding: 10px 28px;
+                  border-radius: 8px; text-decoration: none; font-weight: 700;
+                  font-size: 16px; display: inline-block; margin-top: 10px;">
+          View Dashboard
+        </a>
+      </div>
+    </div>
+
+    <div class="carousel-item">
+      <img class="d-block w-100"
+           src="https://images.unsplash.com/photo-1530497610245-94d3c16cda28"
+           alt="Community Health"
+           style="height: 520px; object-fit: cover; object-position: center; filter: brightness(0.55);">
+      <div class="carousel-caption d-none d-md-block">
+        <h5 style="font-size: 48px; font-weight: 900; font-family: Arial, sans-serif;
+                   text-shadow: 2px 2px 10px rgba(0,0,0,0.9);">
+          Reaching the Unreached
+        </h5>
+        <p style="font-size: 20px; font-family: Arial, sans-serif;
+                  text-shadow: 2px 2px 8px rgba(0,0,0,0.8);">
+          Serving patients across 12 states in India
+        </p>
+        <a href="{% url 'about' %}"
+           style="background: #2563eb; color: #fff; padding: 10px 28px;
+                  border-radius: 8px; text-decoration: none; font-weight: 700;
+                  font-size: 16px; display: inline-block; margin-top: 10px;">
+          Learn More
+        </a>
+      </div>
+    </div>
+
+    <div class="carousel-item">
+      <img class="d-block w-100"
+           src="https://images.unsplash.com/photo-1504813184591-01572f98c85f"
+           alt="Physiotherapy"
+           style="height: 520px; object-fit: cover; object-position: center; filter: brightness(0.55);">
+      <div class="carousel-caption d-none d-md-block">
+        <h5 style="font-size: 48px; font-weight: 900; font-family: Arial, sans-serif;
+                   text-shadow: 2px 2px 10px rgba(0,0,0,0.9);">
+          Tracking Treatment Outcomes
+        </h5>
+        <p style="font-size: 20px; font-family: Arial, sans-serif;
+                  text-shadow: 2px 2px 8px rgba(0,0,0,0.8);">
+          Physiotherapy, RCS eligibility, and follow-up insights
+        </p>
+        <a href="{% url 'superset_dashboard1' %}"
+           style="background: #2563eb; color: #fff; padding: 10px 28px;
+                  border-radius: 8px; text-decoration: none; font-weight: 700;
+                  font-size: 16px; display: inline-block; margin-top: 10px;">
+          View Physiotherapy Dashboard
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </a>
+
+</div>
+
+<!-- ===== STATS BAR ===== -->
+<div style="background: #1e3a5f; padding: 30px 0;">
+  <div class="container">
+    <div class="row text-center text-white">
+      <div class="col-6 col-md-3 mb-3 mb-md-0">
+        <h2 style="font-weight: 900; font-size: 42px; color: #60a5fa; margin: 0;">12</h2>
+        <p style="color: #cbd5e1; margin: 0; font-size: 14px;">States Covered</p>
+      </div>
+      <div class="col-6 col-md-3 mb-3 mb-md-0">
+        <h2 style="font-weight: 900; font-size: 42px; color: #34d399; margin: 0;">12k+</h2>
+        <p style="color: #cbd5e1; margin: 0; font-size: 14px;">Total Patients</p>
+      </div>
+      <div class="col-6 col-md-3">
+        <h2 style="font-weight: 900; font-size: 42px; color: #f472b6; margin: 0;">7.9k</h2>
+        <p style="color: #cbd5e1; margin: 0; font-size: 14px;">Male Patients</p>
+      </div>
+      <div class="col-6 col-md-3">
+        <h2 style="font-weight: 900; font-size: 42px; color: #fb923c; margin: 0;">4.1k</h2>
+        <p style="color: #cbd5e1; margin: 0; font-size: 14px;">Female Patients</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FEATURE SECTIONS ===== -->
+<div class="container" style="padding: 0 40px;">
+
+  <!-- Feature 1 -->
+  <hr class="featurette-divider">
+  <div class="row featurette align-items-center">
+    <div class="col-md-7" style="padding: 15px;">
+      <h2 class="featurette-heading" style="color: #1e3a5f; font-weight: 800;">
+        Patient Count Dashboard
+        <span class="text-muted" style="font-size: 22px;"> Real-time insights.</span>
+      </h2>
+      <p class="lead" style="color: #334155;">
+        Track total patient distribution by gender and age group across all 12 states.
+        KPI cards, bar charts, and detailed tables give you a complete picture at a glance.
+      </p>
+      <a href="{% url 'superset_dashboard' %}"
+         style="background: #1e3a5f; color: #fff; padding: 10px 24px;
+                border-radius: 8px; text-decoration: none; font-weight: 700;
+                display: inline-block; margin-top: 8px;">
+        Open Dashboard
+      </a>
+    </div>
+    <div class="col-md-5" style="padding: 15px;">
+      <img src="https://images.unsplash.com/photo-1551601651-2a8555f1a136"
+           class="img-fluid"
+           style="width: 100%; height: 300px; object-fit: cover;
+                  object-position: center; border-radius: 12px;
+                  box-shadow: 0 8px 24px rgba(0,0,0,0.12);">
+    </div>
+  </div>
+
+  <!-- Feature 2 -->
+  <hr class="featurette-divider">
+  <div class="row featurette align-items-center">
+    <div class="col-md-7 order-md-2" style="padding: 15px;">
+      <h2 class="featurette-heading" style="color: #1e3a5f; font-weight: 800;">
+        Physiotherapy Dashboard
+        <span class="text-muted" style="font-size: 22px;"> Outcomes tracked.</span>
+      </h2>
+      <p class="lead" style="color: #334155;">
+        Monitor treatment follow-ups, RCS eligibility, sensory loss data,
+        and NFA done records. Understand recovery trends across regions.
+      </p>
+      <a href="{% url 'superset_dashboard1' %}"
+         style="background: #1e3a5f; color: #fff; padding: 10px 24px;
+                border-radius: 8px; text-decoration: none; font-weight: 700;
+                display: inline-block; margin-top: 8px;">
+        Open Dashboard
+      </a>
+    </div>
+    <div class="col-md-5 order-md-1" style="padding: 15px;">
+      <img src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3"
+           class="img-fluid"
+           style="width: 100%; height: 300px; object-fit: cover;
+                  object-position: center; border-radius: 12px;
+                  box-shadow: 0 8px 24px rgba(0,0,0,0.12);">
+    </div>
+  </div>
+
+  <!-- Feature 3 -->
+  <hr class="featurette-divider">
+  <div class="row featurette align-items-center">
+    <div class="col-md-7" style="padding: 15px;">
+      <h2 class="featurette-heading" style="color: #1e3a5f; font-weight: 800;">
+        State-wise Filtering
+        <span class="text-muted" style="font-size: 22px;"> Drill into your region.</span>
+      </h2>
+      <p class="lead" style="color: #334155;">
+        Use the built-in state filter to drill down into data for any of the
+        12 states. Row Level Security ensures each user sees only their
+        authorized data automatically.
+      </p>
+      <a href="{% url 'superset_dashboard' %}"
+         style="background: #1e3a5f; color: #fff; padding: 10px 24px;
+                border-radius: 8px; text-decoration: none; font-weight: 700;
+                display: inline-block; margin-top: 8px;">
+        Try State Filter
+      </a>
+    </div>
+    <div class="col-md-5" style="padding: 15px;">
+      <img src="https://images.unsplash.com/photo-1580281657702-257584239a55"
+           class="img-fluid"
+           style="width: 100%; height: 300px; object-fit: cover;
+                  object-position: center; border-radius: 12px;
+                  box-shadow: 0 8px 24px rgba(0,0,0,0.12);">
+    </div>
+  </div>
+
+  <hr class="featurette-divider">
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer class="bg-dark text-white text-center py-3">
+  <p class="mb-0">© 2026 LEPRA India | Powered by Apache Superset & Django</p>
+</footer>
+
+{% endblock body %}

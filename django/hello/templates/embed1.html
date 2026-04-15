@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+
+{%block title%}
+superset-dashboard1
+{% endblock title%}
+
+{%block body%}
+{% load static %}
+
+{% block contents %}
+    <style>
+  /* ================= RESET ================= */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* ================= WRAPPER ================= */
+#superset-wrapper {
+    position: absolute; /* Changed from fixed to absolute for better flow */
+    top: 56px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #0b0f19; /* Prevents white flashes during load */
+    display: flex;
+}
+
+/* ================= CONTAINER ================= */
+#superset-container {
+    flex: 1; /* Take all available space */
+    width: 100%;
+    height: 100%;
+}
+
+/* ================= IFRAME ================= */
+#superset-container iframe {
+    width: 100% !important;
+    height: 100% !important;
+    border: none;
+    display: block;
+}
+</style>
+
+    <!-- Wrap your iframe in a new wrapper to adjust space below navbar -->
+    <div id="superset-wrapper">
+        <div id="superset-container"></div>
+    </div>
+
+{% endblock %}
+
+    <!-- <div id="superset-container" style="height: 800px; width: 100%;"></div>
+
+    <style>
+        /* Flex container to center the dashboard */
+        #superset-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: calc(100vh - 20px); /* Ensures it fills the screen */
+            min-height: 800px;
+        }
+
+        /* Ensure the embedded dashboard container fills available space */
+        #superset-container {
+            width: 100%;
+            height: 100%;
+            min-height: 800px;
+        }
+
+        /* Force iframe inside Superset SDK to take full width/height */
+        iframe {
+            width: 100% !important;
+            height: 100% !important;
+        }
+    </style> -->
+
+{% block extra_javascript %}
+<script src="https://unpkg.com/@superset-ui/embedded-sdk"></script>
+    <script>
+        const supersetUrl = '{{superset_url}}';
+        const username = '{{superset_username}}';
+        const password = '{{superset_password}}';
+        const dashboardId = '{{dashboard_id}}';
+        //const djangoUsername = "{{ django_username|escapejs }}";
+        //const datasetIds = {{ lepra_dataset_ids|safe }};
+        console.log(supersetUrl, '-----', username, '------', password, '-----', dashboardId, '----------------' )
+
+        function logError(message, error) {
+            console.error(`${message}`, error);
+            alert(`${message}: Check console for details.`);
+        }
+
+        async function getAccessToken() {
+            try {
+                const response = await fetch(`${supersetUrl}/api/v1/security/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password, provider: 'db', refresh: true }),
+                });
+
+                if (!response.ok) throw new Error(`Login failed: ${response.statusText}`);
+                const data = await response.json();
+                console.log("Access Token Response:", data);
+                return data.access_token;
+            } catch (error) {
+                logError('Error fetching access token', error);
+                return null;
+            }
+        }
+
+        async function getCSRFToken(accessToken) {
+            try {
+                const response = await fetch(`${supersetUrl}/api/v1/security/csrf_token/`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                    },
+                });
+
+                if (!response.ok) throw new Error(`CSRF token fetch failed: ${response.statusText}`);
+                const data = await response.json();
+                console.log("CSRF Token Response:", data);
+                return data.result;
+            } catch (error) {
+                logError('Error fetching CSRF token', error);
+                return null;
+            }
+        }
+
+        async function generateGuestToken(accessToken, csrfToken) {
+            try {
+                const response = await fetch(`${supersetUrl}/api/v1/security/guest_token/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                        'X-CSRFToken': csrfToken, 
+                    },
+                    body: JSON.stringify({
+                        resources: [{ type: 'dashboard', id: dashboardId }],
+                        // rls: datasetIds.map(id => ({
+                        //     dataset: id,
+                        //     clause: rlsClause
+                        // })),
+                        rls : [],         
+                        user: { username: 'guest', first_name: 'first', last_name: 'user' }
+                    }),
+                });
+
+                if (!response.ok) throw new Error(`Guest token generation failed: ${response.statusText}`);
+                const data = await response.json();
+                console.log("Guest Token Response:", data);
+                return data.token;
+            } catch (error) {
+                logError('Guest token generation failed', error);
+                return null;
+            }
+        }
+
+        async function waitForSDK() {
+        return new Promise((resolve) => {
+            const checkSDK = setInterval(() => {
+                if (window.supersetEmbeddedSdk) {
+                    clearInterval(checkSDK);
+                    resolve();
+                }
+            }, 100);
+        });
+        }
+
+        async function embedDashboard() {
+            console.log(" Starting embedDashboard");
+            await waitForSDK();
+
+            const accessToken = await getAccessToken();
+            console.log(" Access token:", accessToken);
+            if (!accessToken) return;
+
+            const csrfToken = await getCSRFToken(accessToken);
+            console.log(" CSRF token:", csrfToken);
+            if (!csrfToken) return;
+
+            const guestToken = await generateGuestToken(accessToken, csrfToken);
+            console.log(" Guest token:", guestToken);
+            if (!guestToken) return;
+
+            try {
+                await supersetEmbeddedSdk.embedDashboard({
+                    id: dashboardId,
+                    supersetDomain: supersetUrl,
+                    mountPoint: document.getElementById('superset-container'),
+                    fetchGuestToken: () => guestToken,
+                    dashboardUiConfig: {
+                        hideTitle: false,
+                        hideChartControls: false,
+                        hideTab: false,
+                    },
+                });
+            } catch (error) {
+                logError('Failed to embed dashboard', error);
+            }
+        }
+
+        embedDashboard();
+    </script>
+{% endblock %}
+{% endblock body%}

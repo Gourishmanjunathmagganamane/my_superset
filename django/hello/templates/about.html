@@ -1,0 +1,249 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}About Us{% endblock title %}
+
+{% block body %}
+
+<!-- ===== HERO ===== -->
+<div class="jumbotron jumbotron-fluid mb-0"
+     style="background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%); padding: 60px 0;">
+  <div class="container text-center">
+    <h1 style="font-weight: 900; color: #ffffff; font-size: 48px;">
+      About LEPRA India
+    </h1>
+    <p style="font-size: 20px; color: #94a3b8; max-width: 700px; margin: 16px auto 0;">
+      A leading public health organization working to eliminate leprosy and
+      neglected tropical diseases across India through data-driven programs.
+    </p>
+  </div>
+</div>
+
+<!-- ===== WHO WE ARE ===== -->
+<section class="py-5" style="background: #f8fafc;">
+  <div class="container">
+    <div class="row align-items-center">
+
+      <div class="col-md-6 mb-4 mb-md-0">
+        <img src="https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf"
+             class="img-fluid rounded shadow"
+             style="height: 360px; width: 100%; object-fit: cover; border-radius: 14px;">
+      </div>
+
+      <div class="col-md-6">
+        <h2 style="font-weight: 800; color: #1e3a5f;">Who We Are</h2>
+        <p style="color: #334155; font-size: 16px; line-height: 1.8;">
+          LEPRA India is a public health organization dedicated to fighting leprosy,
+          lymphatic filariasis, and other neglected tropical diseases. We work at
+          the grassroots level across 12 Indian states, ensuring that the most
+          vulnerable communities receive quality healthcare and support.
+        </p>
+
+        <h4 style="color: #1e3a5f; margin-top: 24px;">Our Mission</h4>
+        <p style="color: #334155; font-size: 15px; line-height: 1.8;">
+          To deliver quality healthcare, reduce disability, and restore dignity
+          to people affected by leprosy and related conditions through
+          community-based programs and data-informed decision making.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== STATS ===== -->
+<section style="background: #1e3a5f; padding: 50px 0;">
+  <div class="container">
+    <div class="row text-center text-white">
+      <div class="col-6 col-md-3 mb-4 mb-md-0">
+        <h1 style="font-weight: 900; font-size: 52px; color: #60a5fa; margin: 0;">12</h1>
+        <p style="color: #cbd5e1; margin: 4px 0 0; font-size: 15px;">States Covered</p>
+      </div>
+      <div class="col-6 col-md-3 mb-4 mb-md-0">
+        <h1 style="font-weight: 900; font-size: 52px; color: #34d399; margin: 0;">12k+</h1>
+        <p style="color: #cbd5e1; margin: 4px 0 0; font-size: 15px;">Total Patients</p>
+      </div>
+      <div class="col-6 col-md-3">
+        <h1 style="font-weight: 900; font-size: 52px; color: #f472b6; margin: 0;">7.9k</h1>
+        <p style="color: #cbd5e1; margin: 4px 0 0; font-size: 15px;">Male Patients</p>
+      </div>
+      <div class="col-6 col-md-3">
+        <h1 style="font-weight: 900; font-size: 52px; color: #fb923c; margin: 0;">4.1k</h1>
+        <p style="color: #cbd5e1; margin: 4px 0 0; font-size: 15px;">Female Patients</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHAT WE TRACK ===== -->
+<section class="py-5" style="background: #ffffff;">
+  <div class="container">
+    <h2 class="text-center mb-2" style="font-weight: 800; color: #1e3a5f;">
+      What Our Dashboards Track
+    </h2>
+    <p class="text-center mb-5" style="color: #64748b;">
+      Real-time visibility into every aspect of our healthcare programs
+    </p>
+
+    <div class="row">
+
+      <div class="col-md-4 mb-4">
+        <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 14px;
+                    padding: 28px; height: 100%;">
+          <div style="font-size: 36px; margin-bottom: 12px;">👥</div>
+          <h5 style="color: #1e3a5f; font-weight: 700;">Patient Demographics</h5>
+          <p style="color: #475569; font-size: 14px; line-height: 1.7;">
+            Male, Female, and Transgender patient counts broken down
+            by adult and child categories across all states.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-4">
+        <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 14px;
+                    padding: 28px; height: 100%;">
+          <div style="font-size: 36px; margin-bottom: 12px;">🗺️</div>
+          <h5 style="color: #1e3a5f; font-weight: 700;">State-wise Reach</h5>
+          <p style="color: #475569; font-size: 14px; line-height: 1.7;">
+            Program reach tracked across 12 Indian states with
+            state-level filtering for focused analysis.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-4">
+        <div style="background: #fdf4ff; border: 1px solid #e9d5ff; border-radius: 14px;
+                    padding: 28px; height: 100%;">
+          <div style="font-size: 36px; margin-bottom: 12px;">🏥</div>
+          <h5 style="color: #1e3a5f; font-weight: 700;">Treatment Outcomes</h5>
+          <p style="color: #475569; font-size: 14px; line-height: 1.7;">
+            Status follow-up tracking including No Change, Partial Recovery,
+            Full Recovery, and Worsened outcomes.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-4">
+        <div style="background: #fff7ed; border: 1px solid #fed7aa; border-radius: 14px;
+                    padding: 28px; height: 100%;">
+          <div style="font-size: 36px; margin-bottom: 12px;">🦽</div>
+          <h5 style="color: #1e3a5f; font-weight: 700;">RCS Eligibility</h5>
+          <p style="color: #475569; font-size: 14px; line-height: 1.7;">
+            Reconstructive Corrective Surgery eligibility tracking
+            for patients requiring surgical intervention.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-4">
+        <div style="background: #fff1f2; border: 1px solid #fecdd3; border-radius: 14px;
+                    padding: 28px; height: 100%;">
+          <div style="font-size: 36px; margin-bottom: 12px;">🧠</div>
+          <h5 style="color: #1e3a5f; font-weight: 700;">Sensory Loss</h5>
+          <p style="color: #475569; font-size: 14px; line-height: 1.7;">
+            Monitoring sensory loss and disability levels to assess
+            the severity of conditions across patient groups.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-4">
+        <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 14px;
+                    padding: 28px; height: 100%;">
+          <div style="font-size: 36px; margin-bottom: 12px;">📋</div>
+          <h5 style="color: #1e3a5f; font-weight: 700;">NFA Records</h5>
+          <p style="color: #475569; font-size: 14px; line-height: 1.7;">
+            No Further Action records tracked by gender and region
+            for program completion monitoring.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== STATES WE COVER ===== -->
+<section class="py-5" style="background: #f1f5f9;">
+  <div class="container text-center">
+    <h2 style="font-weight: 800; color: #1e3a5f;" class="mb-2">States We Cover</h2>
+    <p style="color: #64748b;" class="mb-4">
+      Active program presence across these 12 Indian states
+    </p>
+    <div class="row justify-content-center">
+      {% for state in states %}
+      <div class="col-6 col-md-3 mb-3">
+        <div style="background: #ffffff; border: 1px solid #e2e8f0;
+                    border-left: 4px solid #1e3a5f;
+                    border-radius: 10px; padding: 14px 10px;
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+                    transition: transform 0.2s;">
+          <span style="color: #1e3a5f; font-weight: 600; font-size: 14px;">
+            {{ state }}
+          </span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ===== OUR DASHBOARDS ===== -->
+<section class="py-5" style="background: #ffffff;">
+  <div class="container text-center">
+    <h2 style="font-weight: 800; color: #1e3a5f;" class="mb-2">Our Dashboards</h2>
+    <p style="color: #64748b;" class="mb-5">
+      Interactive embedded dashboards powered by Apache Superset
+    </p>
+    <div class="row justify-content-center">
+
+      <div class="col-md-5 mb-4">
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0;
+                    border-top: 4px solid #2563eb;
+                    border-radius: 14px; padding: 32px;
+                    box-shadow: 0 4px 16px rgba(0,0,0,0.06);">
+          <div style="font-size: 40px; margin-bottom: 12px;">📊</div>
+          <h4 style="color: #1e3a5f; font-weight: 700;">Patient Count Dashboard</h4>
+          <p style="color: #475569; font-size: 15px; line-height: 1.7;">
+            Tracks total patient distribution by gender, age group,
+            and state with state-wise RLS filtering.
+          </p>
+          <a href="{% url 'superset_dashboard' %}"
+             style="background: #1e3a5f; color: #fff; padding: 10px 24px;
+                    border-radius: 8px; text-decoration: none; font-weight: 700;
+                    display: inline-block; margin-top: 12px;">
+            View Dashboard →
+          </a>
+        </div>
+      </div>
+
+      <div class="col-md-5 mb-4">
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0;
+                    border-top: 4px solid #7c3aed;
+                    border-radius: 14px; padding: 32px;
+                    box-shadow: 0 4px 16px rgba(0,0,0,0.06);">
+          <div style="font-size: 40px; margin-bottom: 12px;">🏃</div>
+          <h4 style="color: #1e3a5f; font-weight: 700;">Physiotherapy Dashboard</h4>
+          <p style="color: #475569; font-size: 15px; line-height: 1.7;">
+            Monitors physiotherapy outcomes, RCS eligibility,
+            sensory loss tracking and NFA done records.
+          </p>
+          <a href="{% url 'superset_dashboard1' %}"
+             style="background: #7c3aed; color: #fff; padding: 10px 24px;
+                    border-radius: 8px; text-decoration: none; font-weight: 700;
+                    display: inline-block; margin-top: 12px;">
+            View Dashboard →
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="bg-dark text-white text-center py-3">
+  <p class="mb-0">© 2026 LEPRA India | Powered by Apache Superset & Django</p>
+</footer>
+
+{% endblock body %}

@@ -1,0 +1,382 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Services{% endblock title %}
+
+{% block body %}
+
+<!-- ===== HERO ===== -->
+<div class="jumbotron jumbotron-fluid mb-0"
+     style="background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%); padding: 64px 0;">
+  <div class="container text-center">
+    <p style="font-size: 12px; font-weight: 600; color: #60a5fa;
+              letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px;">
+      What We Offer
+    </p>
+    <h1 style="font-weight: 900; color: #ffffff; font-size: 48px; margin-bottom: 14px;">
+      Our Services
+    </h1>
+    <p style="font-size: 18px; color: #94a3b8; max-width: 640px; margin: 0 auto; line-height: 1.8;">
+      Powering healthcare decisions across 12 Indian states with real-time dashboards,
+      secure data access, and actionable insights for leprosy and NTD programs.
+    </p>
+  </div>
+</div>
+
+<!-- ===== CORE SERVICES ===== -->
+<section class="py-5" style="background: #f8fafc; border-bottom: 1px solid #e2e8f0;">
+  <div class="container">
+
+    <p style="font-size: 12px; font-weight: 600; color: #2563eb;
+              letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px;">
+      Core Offerings
+    </p>
+    <h2 style="font-weight: 800; color: #1e3a5f; font-size: 30px; margin-bottom: 8px;">
+      What LEPRA India Provides
+    </h2>
+    <p style="color: #64748b; font-size: 15px; line-height: 1.7; max-width: 560px; margin-bottom: 40px;">
+      From patient tracking to surgical eligibility — every service is built around real program needs.
+    </p>
+
+    <div class="row">
+
+      <!-- Patient Count Dashboard -->
+      <div class="col-md-4 mb-4">
+        <div style="background: #ffffff; border: 1px solid #e2e8f0;
+                    border-top: 4px solid #2563eb;
+                    border-radius: 14px; padding: 28px; height: 100%;">
+          <div style="width: 44px; height: 44px; border-radius: 10px;
+                      background: #eff6ff; display: flex; align-items: center;
+                      justify-content: center; font-size: 20px; margin-bottom: 16px;">
+            📊
+          </div>
+          <h5 style="font-weight: 700; color: #1e3a5f; margin-bottom: 8px;">
+            Patient Count Dashboard
+          </h5>
+          <p style="color: #475569; font-size: 14px; line-height: 1.7;">
+            Real-time KPI cards, bar charts, and tables tracking total patient
+            distribution by gender, age group, and state across all 12 program areas.
+          </p>
+          <span style="display: inline-block; font-size: 11px; font-weight: 600;
+                       padding: 3px 12px; border-radius: 20px; margin-top: 14px;
+                       background: #eff6ff; color: #1d4ed8;">
+            Live Data
+          </span>
+        </div>
+      </div>
+
+      <!-- Physiotherapy Dashboard -->
+      <div class="col-md-4 mb-4">
+        <div style="background: #ffffff; border: 1px solid #e2e8f0;
+                    border-top: 4px solid #7c3aed;
+                    border-radius: 14px; padding: 28px; height: 100%;">
+          <div style="width: 44px; height: 44px; border-radius: 10px;
+                      background: #f5f3ff; display: flex; align-items: center;
+                      justify-content: center; font-size: 20px; margin-bottom: 16px;">
+            🏃
+          </div>
+          <h5 style="font-weight: 700; color: #1e3a5f; margin-bottom: 8px;">
+            Physiotherapy Dashboard
+          </h5>
+          <p style="color: #475569; font-size: 14px; line-height: 1.7;">
+            Monitor treatment follow-ups, RCS eligibility, sensory loss severity,
+            and NFA done records. Understand recovery trends across all regions.
+          </p>
+          <span style="display: inline-block; font-size: 11px; font-weight: 600;
+                       padding: 3px 12px; border-radius: 20px; margin-top: 14px;
+                       background: #f5f3ff; color: #6d28d9;">
+            Outcomes
+          </span>
+        </div>
+      </div>
+
+      <!-- State-wise Filtering -->
+      <div class="col-md-4 mb-4">
+        <div style="background: #ffffff; border: 1px solid #e2e8f0;
+                    border-top: 4px solid #059669;
+                    border-radius: 14px; padding: 28px; height: 100%;">
+          <div style="width: 44px; height: 44px; border-radius: 10px;
+                      background: #ecfdf5; display: flex; align-items: center;
+                      justify-content: center; font-size: 20px; margin-bottom: 16px;">
+            🗺️
+          </div>
+          <h5 style="font-weight: 700; color: #1e3a5f; margin-bottom: 8px;">
+            State-wise Filtering
+          </h5>
+          <p style="color: #475569; font-size: 14px; line-height: 1.7;">
+            Drill into any of the 12 covered states using built-in filters.
+            Row Level Security ensures each user only sees their authorized region's data.
+          </p>
+          <span style="display: inline-block; font-size: 11px; font-weight: 600;
+                       padding: 3px 12px; border-radius: 20px; margin-top: 14px;
+                       background: #ecfdf5; color: #065f46;">
+            Secure Access
+          </span>
+        </div>
+      </div>
+
+      <!-- RCS Eligibility -->
+      <div class="col-md-4 mb-4">
+        <div style="background: #ffffff; border: 1px solid #e2e8f0;
+                    border-top: 4px solid #dc2626;
+                    border-radius: 14px; padding: 28px; height: 100%;">
+          <div style="width: 44px; height: 44px; border-radius: 10px;
+                      background: #fef2f2; display: flex; align-items: center;
+                      justify-content: center; font-size: 20px; margin-bottom: 16px;">
+            🦽
+          </div>
+          <h5 style="font-weight: 700; color: #1e3a5f; margin-bottom: 8px;">
+            RCS Eligibility Tracking
+          </h5>
+          <p style="color: #475569; font-size: 14px; line-height: 1.7;">
+            Identify patients who qualify for Reconstructive Corrective Surgery.
+            Track eligibility counts by gender and geography to prioritize interventions.
+          </p>
+          <span style="display: inline-block; font-size: 11px; font-weight: 600;
+                       padding: 3px 12px; border-radius: 20px; margin-top: 14px;
+                       background: #fef2f2; color: #991b1b;">
+            Clinical
+          </span>
+        </div>
+      </div>
+
+      <!-- Sensory Loss -->
+      <div class="col-md-4 mb-4">
+        <div style="background: #ffffff; border: 1px solid #e2e8f0;
+                    border-top: 4px solid #d97706;
+                    border-radius: 14px; padding: 28px; height: 100%;">
+          <div style="width: 44px; height: 44px; border-radius: 10px;
+                      background: #fffbeb; display: flex; align-items: center;
+                      justify-content: center; font-size: 20px; margin-bottom: 16px;">
+            🧠
+          </div>
+          <h5 style="font-weight: 700; color: #1e3a5f; margin-bottom: 8px;">
+            Sensory Loss Monitoring
+          </h5>
+          <p style="color: #475569; font-size: 14px; line-height: 1.7;">
+            Assess disability severity across patient groups through sensory loss data.
+            Helps field teams prioritize care and flag high-risk individuals early.
+          </p>
+          <span style="display: inline-block; font-size: 11px; font-weight: 600;
+                       padding: 3px 12px; border-radius: 20px; margin-top: 14px;
+                       background: #fffbeb; color: #92400e;">
+            Disability
+          </span>
+        </div>
+      </div>
+
+      <!-- NFA Records -->
+      <div class="col-md-4 mb-4">
+        <div style="background: #ffffff; border: 1px solid #e2e8f0;
+                    border-top: 4px solid #0891b2;
+                    border-radius: 14px; padding: 28px; height: 100%;">
+          <div style="width: 44px; height: 44px; border-radius: 10px;
+                      background: #ecfeff; display: flex; align-items: center;
+                      justify-content: center; font-size: 20px; margin-bottom: 16px;">
+            📋
+          </div>
+          <h5 style="font-weight: 700; color: #1e3a5f; margin-bottom: 8px;">
+            NFA Records Management
+          </h5>
+          <p style="color: #475569; font-size: 14px; line-height: 1.7;">
+            Track No Further Action records by gender and region.
+            Monitor program completion rates and identify gaps in follow-up care.
+          </p>
+          <span style="display: inline-block; font-size: 11px; font-weight: 600;
+                       padding: 3px 12px; border-radius: 20px; margin-top: 14px;
+                       background: #ecfeff; color: #155e75;">
+            Completion
+          </span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section class="py-5" style="background: #ffffff;">
+  <div class="container">
+    <div class="row align-items-center">
+
+      <!-- Steps -->
+      <div class="col-md-6 mb-4 mb-md-0">
+        <p style="font-size: 12px; font-weight: 600; color: #2563eb;
+                  letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px;">
+          How It Works
+        </p>
+        <h2 style="font-weight: 800; color: #1e3a5f; font-size: 26px; margin-bottom: 28px;">
+          From field data to live dashboards
+        </h2>
+
+        <!-- Step 1 -->
+        <div style="display: flex; gap: 14px; margin-bottom: 22px;">
+          <div style="width: 30px; height: 30px; border-radius: 50%;
+                      background: #1e3a5f; color: #fff; font-size: 13px;
+                      font-weight: 700; display: flex; align-items: center;
+                      justify-content: center; flex-shrink: 0; margin-top: 2px;">
+            1
+          </div>
+          <div>
+            <h6 style="font-weight: 700; color: #1e3a5f; margin-bottom: 4px;">
+              Data collected in the field
+            </h6>
+            <p style="color: #64748b; font-size: 14px; line-height: 1.6; margin: 0;">
+              Healthcare workers record patient details, treatment outcomes, and
+              disability assessments across all 12 states.
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div style="display: flex; gap: 14px; margin-bottom: 22px;">
+          <div style="width: 30px; height: 30px; border-radius: 50%;
+                      background: #1e3a5f; color: #fff; font-size: 13px;
+                      font-weight: 700; display: flex; align-items: center;
+                      justify-content: center; flex-shrink: 0; margin-top: 2px;">
+            2
+          </div>
+          <div>
+            <h6 style="font-weight: 700; color: #1e3a5f; margin-bottom: 4px;">
+              Processed & secured in the backend
+            </h6>
+            <p style="color: #64748b; font-size: 14px; line-height: 1.6; margin: 0;">
+              Django handles data ingestion and Row Level Security ensures every
+              user only accesses their authorized scope.
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div style="display: flex; gap: 14px; margin-bottom: 22px;">
+          <div style="width: 30px; height: 30px; border-radius: 50%;
+                      background: #1e3a5f; color: #fff; font-size: 13px;
+                      font-weight: 700; display: flex; align-items: center;
+                      justify-content: center; flex-shrink: 0; margin-top: 2px;">
+            3
+          </div>
+          <div>
+            <h6 style="font-weight: 700; color: #1e3a5f; margin-bottom: 4px;">
+              Visualized via Apache Superset
+            </h6>
+            <p style="color: #64748b; font-size: 14px; line-height: 1.6; margin: 0;">
+              Interactive dashboards are embedded directly in the portal —
+              KPIs, charts, and filters update in real time.
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div style="display: flex; gap: 14px;">
+          <div style="width: 30px; height: 30px; border-radius: 50%;
+                      background: #1e3a5f; color: #fff; font-size: 13px;
+                      font-weight: 700; display: flex; align-items: center;
+                      justify-content: center; flex-shrink: 0; margin-top: 2px;">
+            4
+          </div>
+          <div>
+            <h6 style="font-weight: 700; color: #1e3a5f; margin-bottom: 4px;">
+              Decisions made faster
+            </h6>
+            <p style="color: #64748b; font-size: 14px; line-height: 1.6; margin: 0;">
+              Program managers and state teams drill into their region instantly
+              and act on live insights.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats card -->
+      <div class="col-md-6">
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0;
+                    border-radius: 14px; padding: 28px;">
+          <p style="font-size: 12px; font-weight: 600; color: #2563eb;
+                    letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 16px;">
+            Program Reach
+          </p>
+          <div class="row text-center mb-3">
+            <div class="col-6 mb-3">
+              <div style="background: #fff; border: 1px solid #e2e8f0;
+                          border-radius: 12px; padding: 18px;">
+                <div style="font-size: 30px; font-weight: 900; color: #2563eb;">12</div>
+                <div style="font-size: 13px; color: #64748b;">States</div>
+              </div>
+            </div>
+            <div class="col-6 mb-3">
+              <div style="background: #fff; border: 1px solid #e2e8f0;
+                          border-radius: 12px; padding: 18px;">
+                <div style="font-size: 30px; font-weight: 900; color: #059669;">12k+</div>
+                <div style="font-size: 13px; color: #64748b;">Patients</div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div style="background: #fff; border: 1px solid #e2e8f0;
+                          border-radius: 12px; padding: 18px;">
+                <div style="font-size: 30px; font-weight: 900; color: #7c3aed;">7.9k</div>
+                <div style="font-size: 13px; color: #64748b;">Male</div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div style="background: #fff; border: 1px solid #e2e8f0;
+                          border-radius: 12px; padding: 18px;">
+                <div style="font-size: 30px; font-weight: 900; color: #dc2626;">4.1k</div>
+                <div style="font-size: 13px; color: #64748b;">Female</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="border-top: 1px solid #e2e8f0; padding-top: 16px;">
+            <p style="font-size: 13px; font-weight: 600; color: #1e3a5f; margin-bottom: 10px;">
+              Dashboards Available
+            </p>
+            <div style="display: flex; align-items: center; gap: 10px;
+                        font-size: 13px; color: #1e3a5f; margin-bottom: 8px;">
+              <div style="width: 8px; height: 8px; border-radius: 50%;
+                          background: #2563eb; flex-shrink: 0;"></div>
+              Patient Count Dashboard
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;
+                        font-size: 13px; color: #1e3a5f;">
+              <div style="width: 8px; height: 8px; border-radius: 50%;
+                          background: #7c3aed; flex-shrink: 0;"></div>
+              Physiotherapy Dashboard
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section style="background: #1e3a5f; padding: 56px 0; text-align: center;">
+  <div class="container">
+    <h2 style="color: #ffffff; font-weight: 800; font-size: 28px; margin-bottom: 10px;">
+      Ready to explore the dashboards?
+    </h2>
+    <p style="color: #94a3b8; font-size: 15px; margin-bottom: 28px;">
+      Access live patient data, filter by state, and track program outcomes in real time.
+    </p>
+    <a href="{% url 'superset_dashboard' %}"
+       style="background: #ffffff; color: #1e3a5f; padding: 11px 28px;
+              border-radius: 8px; text-decoration: none; font-weight: 700;
+              font-size: 14px; display: inline-block; margin: 0 6px;">
+      View Patient Dashboard →
+    </a>
+    <a href="{% url 'superset_dashboard1' %}"
+       style="background: transparent; color: #ffffff; padding: 11px 28px;
+              border-radius: 8px; text-decoration: none; font-weight: 700;
+              font-size: 14px; display: inline-block; margin: 0 6px;
+              border: 1.5px solid rgba(255,255,255,0.4);">
+      View Physio Dashboard →
+    </a>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="bg-dark text-white text-center py-3">
+  <p class="mb-0">© 2026 LEPRA India | Powered by Apache Superset & Django</p>
+</footer>
+
+{% endblock body %}
